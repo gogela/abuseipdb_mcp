@@ -1,6 +1,6 @@
 [project]
 name = "abuseipdb_mcp"
-version = "0.0.3"
+version = "0.0.3a"
 description = "A MCP for AbuseIPDB API"
 readme = "README.md"
 requires-python = ">=3.8"
