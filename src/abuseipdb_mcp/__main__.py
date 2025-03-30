@@ -11,6 +11,13 @@ import os
 # Own API key required
 YOUR_OWN_API_KEY=os.environ["ABUSEIPDB_KEY"]
 
+# set limiter for results to prevent overflow in context
+try:
+  RESULTS_LIMIT = int(os.environ["ABUSEIPDB_RESULTS_LIMIT"])
+except:
+  RESULTS_LIMIT = 0
+
+
 # Configure logging
 logging.basicConfig(filename='abuseipdb_mcp.log', level=logging.INFO, format='%(asctime)s - %(message)s')
 
@@ -179,6 +186,10 @@ async def blacklist(confidenceMinimum: int = 90) -> Dict[str, Any]:
     # Formatted output
     decodedResponse = json.loads(response.text)
     results = decodedResponse['data']
+
+    if RESULTS_LIMIT:
+      if len(results)>RESULTS_LIMIT:
+        results=results[:RESULTS_LIMIT]
 
     return {
         "success": True,
