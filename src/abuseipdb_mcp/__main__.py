@@ -90,13 +90,20 @@ async def check_block(network_query: str = "10.10.10.0/24",  maxAgeInDays: int =
     }
 
     response = requests.request(method='GET', url=url, headers=headers, params=querystring)
-    decodedResponse = json.loads(response.text)
-    results = decodedResponse['data']['reportedAddress']
-    return {
-        "success": True,
-        "results": results
-    }
-
+    if response.status_code == 200:
+      decodedResponse = json.loads(response.text)
+      results = decodedResponse['data']['reportedAddress']
+      return {
+          "success": True,
+          "results": results
+      }
+    else:
+      return {
+          "success": False,
+          "error": response.text,
+          "results": []
+      }
+      
   except Exception as e:
       return {
           "success": False,
@@ -141,12 +148,20 @@ async def check(ip_query: str = "10.10.10.10",  maxAgeInDays: int = 10) -> Dict[
     }
 
     response = requests.request(method='GET', url=url, headers=headers, params=querystring)
-    results = json.loads(response.text)
-
-    return {
-        "success": True,
-        "results": results,
-    }
+    
+    if response.status_code == 200:
+      decodedResponse = json.loads(response.text)
+      results = json.loads(response.text)
+      return {
+          "success": True,
+          "results": results
+      }
+    else:
+      return {
+          "success": False,
+          "error": response.text,
+          "results": []
+      }
 
   except Exception as e:
       return {
@@ -183,18 +198,25 @@ async def blacklist(confidenceMinimum: int = 90) -> Dict[str, Any]:
 
     response = requests.request(method='GET', url=url, headers=headers, params=querystring)
 
-    # Formatted output
-    decodedResponse = json.loads(response.text)
-    results = decodedResponse['data']
+    if response.status_code == 200:
+      decodedResponse = json.loads(response.text)
+      results = decodedResponse['data']
 
-    if RESULTS_LIMIT:
-      if len(results)>RESULTS_LIMIT:
-        results=results[:RESULTS_LIMIT]
-
-    return {
-        "success": True,
-        "results": results
-    }
+      if RESULTS_LIMIT:
+        if len(results)>RESULTS_LIMIT:
+          results=results[:RESULTS_LIMIT]
+      
+      return {
+          "success": True,
+          "results": results
+      }
+      
+    else:
+      return {
+          "success": False,
+          "error": response.text,
+          "results": []
+      }
   except Exception as e:
     return {
         "success": False,
