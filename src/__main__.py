@@ -191,5 +191,8 @@ async def blacklist(confidenceMinimum: int = 90) -> Dict[str, Any]:
         "results": []
     }
 
-if __name__ == "__main__":
+def main():
     mcp.run()
+
+if __name__ == "__main__":
+    main()
