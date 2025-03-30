@@ -1,0 +1,21 @@
+[project]
+name = "abuseipdb_mcp"
+version = "0.0.1"
+description = "A MCP for AbuseIPDB API"
+readme = "README.md"
+requires-python = ">=3.8"
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "Operating System :: OS Independent",
+]
+license = "MIT"
+license-files = ["LICEN[CS]E*"]
+
+[project.urls]
+Homepage = "https://github.com/gogela/abuseipdb_mcp"
+Issues = "https://github.com/gogela/abuseipdb_mcp/issues"
+
+
+[build-system]
+requires = ["setuptools>=61.0", "wheel"]
+build-backend = "setuptools.build_meta"
